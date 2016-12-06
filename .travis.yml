@@ -1,28 +1,29 @@
 language: node_js
 env:
   global:
-    secure: i7JlAHK7oNNFWVlwDo3h1dq2W4cdDdcLvcD5kMItaJxpp61dE44Mq5k8xXvVf1WVK1U8WVqw2/sgYz7QpKh5/+3/KVhQCXzY73+Srp2kRm3IeeYfvfGjMk0ajSKuT9UUW524siXYkumkOEaiq/klqmL2HxIsWj0c+/nR1ZuCuMXRYTWw4XcoiO8a5hFLVbDtSU2snBU573lJON6wX+4T9JG9m7FttsHC8gD9prBs69n77heHF0EvuROf8v3HtWnjMWEjOrpUv/s/wm7jk+xrQB1+HH5E/2RJDd9ciREfw3n4jdcxCgZp1FgCAqxLw1MrlePV0OrUQRToCGWNeeuQ23qzIe0H77ZPrlAo1hs3i1ooqgGejFwEhuKJCyWhKPqPPJrsjHwIl4ZNzsCKkaM5ET6wVuKmn3LKlpFE4GLGhg0ZcvBfkY/HGEWDR5S9sYAwd1nGWVXnyYjW2dmygBPbgh21RNiNs1NQMjNaRy4+exGTLNlkg8reBpmrf+hJx2evBHnfby5Z1wQeYtnPLRRnNNGTCHpAr8otINtG8YeFaeMtU8oMZbCH5kwhVBpo8o4Wk2zJaOrfYQfPe4sF649ZdgBAfVrFerp0JaCiYpny/ZoVd+W91JK+APmYibrlzxJk38g+W4FyYFcNkIlNGDp2YTO+DdtmO//scyDr/pQgrfw=
+  - secure: FQ6ooP2iV3nImlYJOPvJF7D9yFy1Ub5zm8rTMtEmCh56F0WdPX7xsIbcrcaLY+qU0LZZFUXsFU3S354/nvvkLt8IpwUp2WdOpiTwRUQEGcqKO5KGGHCEnZ+UQBh21PBBAlSb0pZr9l2/y5ZzMv6VE5fvCvPmnWZpxhSPeB7asgRkCa8eexITIQFyuFi0hvDbVt7cUIe/p4s/mjYp9Ezi5U90zQqo0R9hPMx+OpmvGiXkQJe8c+NzYexb5HdVByKUL7pcY6kmzC8yCi/YI60PHOrQAuLae3f8korb7IbhdUQS5dAqHWUwpwu1/Z6uX4HqYHRthx67RLxMhr/c1WFXwAsSSM1oJ9GTGOGl6fKu8CZme9Typ2T4lY1YEYfBuwcLo7X5FDlwc4BxHlACpVlFkS0E38tg8rBcfLa4JoUZpV1cR6qWUbL+e712ubxprkWuCRQRZz9VrTyF1fmqOr8lcygX6t8xwATrS8RKfwhRvnJy803hN6wiOi5Bz+pxVyXhNwo+ddF6+LDa7b9Rec4cS35Yt6M2tUrJPlg4pNjoJztHimuxxueAN5Qk/nafPvZ8ntGZv4i1ANWrmUeMkQMarGyQzg6XDTNtH4dcdyPqX1z5tk3GnpqplPtn2KYVyE36C3ESS+2WaBhgARa0feImSMlWVCkHnYdF/Ihs7/P07Oo=
 addons:
   apt:
     packages:
-      - sshpass
+    - sshpass
   ssh_known_hosts: argos.jetpad.net
 cache:
   directories:
   - node_modules
-node_js:
-  node
+node_js: node
 before_install:
-  - export CHROME_BIN=chromium-browser
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3
+- export CHROME_BIN=chromium-browser
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- sleep 3
 sudo: false
 install:
-  - npm i -g typings esformatter protractor webpack webpack-dev-server karma protractor typings typescript webpack-merge webpack copy-webpack-plugin html-webpack-plugin awesome-typescript-loader autoprefixer angular2-template-loader hmr-loader
-  - npm i
+- npm i -g typings esformatter protractor webpack webpack-dev-server karma protractor
+  typings typescript webpack-merge webpack copy-webpack-plugin html-webpack-plugin
+  awesome-typescript-loader autoprefixer angular2-template-loader hmr-loader
+- npm i
 script:
-  - npm run build
+- npm run build
 after_success:
-  - export SSHPASS=$DEPLOY_PASS
-  - sshpass -e rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/dist/* jetpad@argos.jetpad.net:/var/www/argos.jetpad.net
+- export SSHPASS=$DEPLOY_PASS
+- sshpass -e rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/dist/* jetpad@argos.jetpad.net:/var/www/argos.jetpad.net
